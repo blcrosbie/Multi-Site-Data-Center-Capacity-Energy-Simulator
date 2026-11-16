@@ -148,15 +148,12 @@ where it shows up in this guide.
 | **EME 504** Foundations in Sustainability Systems | Summer 2020 | Systems thinking, "messes", tipping points, life-cycle cost | Term papers on COVID-19's economic impact and a satellite NO₂ data pipeline | [§4](#4-systems-thinking-stocks-flows-delays-and-limits), [§12](#12-carbon-accounting) |
 | **GEOG 489** Advanced Python Programming for GIS | Summer 2020 | Python for maps: shapefiles, geometry, spatial queries | GIS tools and a proposal to trace air pollution with wind vectors | [§15](#15-siting-distance-and-data-backhaul) |
 
-<!-- Verify official course titles against your transcript; AE 862 and AE 878 use your own notebook titles. -->
 
 **What the degree was actually for.** RESS doesn't train you to design one component. It trains you to carry
 an energy project all the way through, from "is the resource there?" to "who pays, when does it arrive, and
 who lives with the side effects?" That means physics, the grid, money, schedule and ethics, all at once. In
 2017 the biggest new energy projects were solar farms and batteries. In 2026 they are data centers: single
 campuses that ask a utility for hundreds of megawatts. The questions haven't changed.
-
-<!-- YOUR VOICE: Say this in your own words. Why did it take until data centers for the degree to "click"? -->
 
 ---
 
@@ -167,7 +164,7 @@ campuses that ask a utility for hundreds of megawatts. The questions haven't cha
 Capacity planning is a systems problem before it is a spreadsheet problem. Each row is a classroom idea, its
 data center equivalent, and where the simulator uses it.
 
-| Systems idea | Where I met it | Data center equivalent | In the simulator |
+| Systems idea | Course-idea overlap | Data center equivalent | In the simulator |
 |---|---|---|---|
 | **Stocks and flows** | EME 802 (Meadows; stock-and-flow graphs on the exam) | Capacity is a *stock*; demand growth is a *flow* into it; expansions are inflows to capacity. | Monthly projection of demand vs capacity per site |
 | **Delays in feedback loops cause overshoot** | EME 802; MANGT 510 | Lead time. By the time utilization *looks* alarming, it's too late to order a 12-month utility upgrade. | Commit-by month; "arrives late" flag |
@@ -237,18 +234,13 @@ lesson for data centers is that warm return water makes poor electricity, so reu
 heating, greenhouses) where a heat customer is nearby. That fits cool-climate sites like DC1 and DC6 far
 better than DC2 in the desert.
 
-**Power vs energy, at scale.** In an EME 802 homework on Glen Canyon Dam, I worked out that a 1 GW dam at a
-30% capacity factor produces about **2,630 GWh** a year. A flat 100 MW data center campus uses
-`100 MW × 8,760 h ≈ 876 GWh` a year. One campus uses a third of a large dam's annual output.
-
 **Power density: why clean supply needs so much land.**
 
-| Thing | Power per m² | Source |
+| Limitation | Power per m² | Source |
 |---|---:|---|
 | Sunlight at the surface, clear-sky peak | ~1,000 W/m² | Physics |
 | Data center white space (design density) | ~1,000-3,000 W/m² | Industry order of magnitude; AI halls run higher |
-| Utility solar farm: Topaz, 550 MW on 25.6 km², 26.6% capacity factor | ~5.7 W/m² delivered | My EME 801 and EME 802 numbers |
-| Sugarcane grown for fuel (heat content, before conversion) | ~3 W/m² | My EME 802 homework |
+
 
 A data hall packs power hundreds of times more densely than the solar farm that might supply it. So the clean
 energy behind a campus needs a footprint a hundred or more times larger than the building
@@ -262,7 +254,7 @@ energy behind a campus needs a footprint a hundred or more times larger than the
 
 *Courses: EME 810 (2017), EME 802 (2020).*
 
-> **In school.** EME 810 was a whole course on measuring one resource: sunlight. I:
+> EME 810 was a whole course on measuring sunlight. Topics covered:
 > - integrated 3-minute irradiance readings from a SURFRAD ground station into hourly energy, using R
 >   scripts adapted from the course;
 > - compared them against a clear-sky model;
@@ -481,7 +473,7 @@ year**.
 | **Load factor** | `average load ÷ peak load`. Data centers have a very **high load factor** (they run near peak 24/7). That makes them attractive customers but hard to serve from variable renewables alone. |
 | **Capacity factor** | For a *generator*: `actual output ÷ output if it ran at full power all year`. My SAM runs gave solar PV **19%** in Des Moines and **26%** in Daggett, California. Wind is often roughly 35-45% and nuclear about 90% *(order of magnitude, US)*. This mismatch with a flat data center load is the core renewable-integration problem. |
 | **Capacity vs energy** | The grid sells two different things: **energy** (MWh delivered) and **capacity** (a promise to be available at peak). A data center's MW needs are a capacity problem for the grid. In PJM, the capacity auction for 2025/26 cleared at roughly **nine times** the prior year's price, with data center load growth widely cited as a driver *(check current auction results)*. |
-| **Rate base and "who pays"** | A regulated utility earns a return on approved assets. If it builds a substation for a data center that never fills, other customers may end up paying. **Large-load tariffs** (minimum bills, long contracts, collateral) exist to prevent that. It's the mirror image of the net-metering "who pays" debates I wrote about in AE 878 and EME 801. |
+| **Rate base and "who pays"** | A regulated utility earns a return on approved assets. If it builds a substation for a data center that never fills, other customers may end up paying. **Large-load tariffs** (minimum bills, long contracts, collateral) exist to prevent that. It's the mirror image of the net-metering "who pays" debate. |
 | **Demand response / flexible load** | Being paid to reduce consumption when the grid is stressed. Training workloads can sometimes pause or shift; latency-sensitive inference usually can't. |
 | **Behind-the-meter (BTM)** | Generation or storage on the customer's side of the utility meter: on-site solar, batteries, fuel cells, gas turbines, or the Navy Yard's combined heat and power. It's increasingly used to bridge the wait for grid MW. |
 | **Microgrid / islanding** | A local system that can disconnect from the grid and run on its own. A data center's UPS + generators + transfer switches form an islanding system, though most sites island only during outages. |
@@ -504,7 +496,7 @@ simulator has no price at all.
 
 *Courses: EME 812 (2017), EME 802 (2020), AE 878 (2017).*
 
-> **In school.** My EME 812 final project analyzed the **Kauai Island Utility Cooperative's** PPA with
+> The EME 812 final project analyzed the **Kauai Island Utility Cooperative's** PPA with
 > Tesla/SolarCity, for a plant that came online in 2017. The plant was **13 MW of solar plus 52 MWh of batteries**, sold at **13.9¢/kWh for 20
 > years**. Its job was to move midday sunshine into the island's evening peak and burn less imported diesel:
 > about 1.6 million gallons a year, by the project's own figures. In SAM, adding the battery dropped the
@@ -536,8 +528,7 @@ simulator has no price at all.
 | EME 802 ~4 MW campus, central Pennsylvania (team, 2020) | "100% solar," sized to the annual total | On an average day the battery still came up roughly 20-35 MWh short before sunrise |
 | EME 812 KIUC solar + storage (2017) | A 4-hour battery on a solar-heavy island | Covers the evening peak, not the whole night |
 
-This is the whole argument for **24/7 CFE** over annual REC matching, worked out four times in my own
-coursework before I'd ever thought about data centers. Covering a flat load hour by hour is a different
+This is the whole argument for **24/7 CFE** over annual REC matching. Covering a flat load hour by hour is a different
 project from covering it on an annual average. For DC3, that's about 91 MW of solar on an annual basis, versus
 about 96 MW *plus* about 275 MWh of 16-hour storage on an average day. A Midwest December needs far more
 ([§17](#how-much-solar-would-it-take-to-cover-dc3)). That's why 24/7 buyers mix in wind, hydro, geothermal or
@@ -552,7 +543,7 @@ hours every night, plus multi-day lulls. An island can't export its surplus, but
 
 *Courses: EME 801 (2020), AE 878 (2017), EME 810 (2017).*
 
-> **In school.** I priced energy projects at four scales:
+> Energy projects priced at four scales:
 > - a residential solar water heater (EME 810);
 > - a 100 kW plant and a commercial rooftop (AE 878);
 > - Vermont Yankee nuclear plant's purchase price (EME 801);
@@ -602,13 +593,14 @@ anyone needs it ([§17](#what-is-deferring-dc6-phase-2-worth)).
 
 *Courses: EME 504 (2020), AE 862 (2017), EME 812 (2017), EME 801 (2020).*
 
-> **In school.**
-> - **AE 862:** I pulled EPA eGRID data to compare two grid regions: the Pacific Northwest at about **0.42
+> **AE 862:** I pulled EPA eGRID data to compare two grid regions: the Pacific Northwest at about **0.42
 >   tCO₂/MWh** and the Ohio Valley at about **0.68**.
-> - **EME 504:** I proposed a marginal-emissions study inspired by Kaggle's 2020 DS4G Environmental Insights
+> 
+>**EME 504:** I proposed a marginal-emissions study inspired by Kaggle's 2020 DS4G Environmental Insights
 >   Explorer competition. I then built a pipeline that pulled **178 million** satellite NO₂ readings
 >   (Sentinel-5P, via Google Earth Engine) to compare air quality before and during the COVID-19 lockdowns.
-> - **EME 812:** my KIUC project counted the diesel a solar + storage plant displaces.
+> 
+>**EME 812:** my KIUC project counted the diesel a solar + storage plant displaces.
 
 ### Lexicon: carbon
 
@@ -639,7 +631,7 @@ it uses.
 
 *Courses: MANGT 510 (2020), AE 878 (2017).*
 
-> **In school.** MANGT 510 ran a 12-period team simulation of a $500k product-development project. We hired
+> MANGT 510 ran a 12-period team simulation of a $500k product-development project. We hired
 > staff, scheduled tasks with predecessors, and were scored on time, cost, functionality and stakeholders. I
 > built our team's calculator, which estimated time and cost per employee from their observed efficiency.
 > - **Cost:** we finished about **14% over our own task estimates** (a cost performance index of about
@@ -684,7 +676,7 @@ substation upgrades → financing → construction. The substation was the long 
 
 *Courses: BIOET 533 (2020), EME 504 (2020).*
 
-> **In school.** My BIOET 533 final case study was solar panel end-of-life. My model was blunt:
+> BIOET 533 final case study was solar panel end-of-life. My model was blunt:
 > **`y = x + 25`**. Every watt installed today becomes a recycling obligation about 25 years later. I argued
 > that the cost of collection belongs in the project budget and in incentive policy, not pushed onto future
 > taxpayers.
@@ -724,7 +716,7 @@ Two ideas from my BIOET 533 work carry over especially well:
 
 *Courses: GEOG 489 (2020), plus my pre-degree career in telecom network performance.*
 
-> **In school.** GEOG 489 was Python for GIS: reading shapefiles, point-in-polygon tests, hexagon grids, and
+> GEOG 489 was Python for GIS: reading shapefiles, point-in-polygon tests, hexagon grids, and
 > great-circle (haversine) distances between cities. Coming from telecom, I kept seeing networks everywhere.
 > In EME 801 I wrote: *"A good network should have multiple paths of redundancy, whether you are speaking of
 > power grids, telecommunication backhaul, or natural gas pipelines."*
@@ -947,19 +939,6 @@ P90 = 33,235 − 1.28 × 989 ≈ 31,967 kWh   (about 4% below P50)
 The simulator's P10 exhaustion month comes from the same idea, a cautious percentile of many outcomes. It's
 read from 2,000 Monte Carlo draws instead of 30 years of weather, and its tail points at *earlier* dates.
 
-### Re-checking my own homework
-
-Units are where energy projects go wrong. Re-running my 2017-2020 work turned up a few errors worth showing.
-Each one teaches a data center lesson.
-
-| Assignment | What I wrote then | What's right | The lesson |
-|---|---|---|---|
-| AE 862: CO₂ damage cost for two grid regions (2017) | ~$824 and ~$1,347 per MWh | **~$12.5 and ~$20.4 per MWh** at $30/t (the carbon price was applied twice, and pounds were treated as kilograms) | A 66× error flipped my conclusion about solar credits. Carry units through every line. |
-| EME 812: CSP water use (2017) | Labeled "cm³/kWh" | **Litres per kWh**, 1,000× more | Check results against physics. Latent heat would have caught it ([above](#is-dc2s-water-use-physically-plausible)). |
-| EME 812: KIUC battery (2017) | "4 times multiple of the nameplate capacity" | A **13 MW / 52 MWh, 4-hour** battery | MW and MWh answer different questions: how hard vs how long. |
-| AE 878: rooftop sizing formula (2017) | daily kWh ÷ 12 daylight hours ÷ panel efficiency | `annual kWh ÷ (8,760 h × capacity factor)` | Two errors cancelled out. Use the capacity-factor form for any capacity sizing. |
-| EME 810: big-box store roof (2017) | ~70,000 ft² of roof sized at "10-13 kW" | **~0.5-1 MW** | A residential tool's default was off by about 100×. Sanity-check against power density. |
-
 ---
 
 ## 18. What the model deliberately leaves out
@@ -981,7 +960,7 @@ Knowing a model's boundaries is part of the skill. The full list is in [METHODOL
 
 ---
 
-## 19. How to say it in a meeting
+## 19. TLDR;
 
 **One sentence.**
 "It forecasts when each of six data centers runs out of power, cooling or space, tells you what to build and
@@ -1009,8 +988,6 @@ built this the way I'd evaluate a solar farm. I forecast the resource, find the 
 lead times, and put odds on the dates. The 'official' numbers and the risk view run on the same engine, so
 they can't disagree, and it's tested against hand-worked cases."
 
-<!-- YOUR VOICE: Rewrite these in your own cadence; these are scaffolding. -->
-
 ---
 
 ## 20. Further reading
@@ -1026,7 +1003,7 @@ they can't disagree, and it's tested against hand-worked cases."
 - **EPRI**, *Powering Intelligence* (2024): data center load growth and grid implications.
 - **GHG Protocol**, *Scope 2 Guidance*: location-based vs market-based accounting.
 
-**From my RESS coursework**
+**From Penn State University's Master of Professional Studies, Renewable Energy & Sustainability Systems coursework**
 
 - **Jeffrey Brownson**, *Solar Energy Conversion Systems* (2014): the solar-resource and project-design text
   behind EME 810 and EME 802.
@@ -1049,4 +1026,4 @@ they can't disagree, and it's tested against hand-worked cases."
 ---
 
 *Part of the [Multi-Site Data Center Capacity & Energy Simulator](README.md). Synthetic data, for demonstration only.
-Coursework examples are from my Penn State RESS assignments, 2017-2020, re-checked in 2026.*
+Coursework examples are from my Penn State RESS assignments, 2017-2020, updated in 2026.*
