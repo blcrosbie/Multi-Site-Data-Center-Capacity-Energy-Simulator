@@ -1,0 +1,7 @@
+expansion_id,site_id,description,resource,capacity_added,cost_usd,activation_month,status
+EXP-201,DC2,Phase 3 electrical: new 10 MW utility feed + UPS block,power,10.0,34000000,12,Approved
+EXP-202,DC2,Phase 3 cooling: two 3 MWt air-cooled chillers,cooling,6.0,11000000,12,Approved
+EXP-501,DC5,Chiller plant replacement (+4 MWt net),cooling,4.0,7500000,9,Approved
+EXP-601,DC6,Phase 2 shell: 12 MW electrical,power,12.0,40000000,24,Planned
+EXP-602,DC6,Phase 2 shell: 10 MWt cooling,cooling,10.0,18000000,24,Planned
+EXP-603,DC6,Phase 2 white space: 800 racks,space,800.0,16000000,24,Planned
