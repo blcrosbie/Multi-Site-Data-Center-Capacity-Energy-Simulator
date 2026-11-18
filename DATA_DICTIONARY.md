@@ -48,6 +48,13 @@
 | `risk_status`, `risk_reason` | site summary | Low / Medium / High / Critical with the rule that fired (Methodology §5) |
 | `priority_score`, `rank`, `funded` | capital plan | Methodology §6 |
 | `p10_month`, `p50_month`, `p90_month`, `prob_within_Nm` | Monte Carlo | Methodology §7 |
+| `annual_energy_mwh`, `annual_emissions_tco2e`, `annual_water_ml` | energy view | run-rate at a month's draw (Methodology §10) |
+| `above_warning`, `above_critical`, `over_capacity` | monthly export | utilization ≥ warning / ≥ critical; demand > capacity |
+| `gap_months_*`, `crashed_activation_month` | decisions | months over capacity before a late project lands, on time vs crashed |
+| `extra_months_over_capacity`, `extra_months_above_warning` | deferral export | added by deferring one item N months |
+| `pv_value_defer_12m` | decisions | present value of deferring a planned expansion 12 months (illustrative 10% rate) |
+
+Downloadable files and their contents are listed in Methodology §11.
 
 ## Site archetypes (the story the synthetic data is designed to tell)
 

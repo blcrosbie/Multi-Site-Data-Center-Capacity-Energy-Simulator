@@ -36,6 +36,11 @@ PROJECT_COLUMNS = [
     "urgency_score", "risk_score", "cost_score", "priority_score",
     "funded", "cumulative_funded_usd", "budget_remaining_usd",
 ]
+SIZED_COLUMNS = [
+    "site_id", "site_name", "resource", "unit", "risk_status", "capacity_added", "cost_usd",
+    "need_month", "need_period", "lead_time_months", "commit_by_month", "activation_month",
+    "activation_period", "arrives_late", "exhaustion_if_not_built", "months_over_capacity_if_not_built",
+]
 
 
 @dataclass
@@ -102,7 +107,7 @@ def size_projects(result: ForecastResult) -> pd.DataFrame:
                 "exhaustion_if_not_built": ex,
                 "months_over_capacity_if_not_built": int(np.sum(d > cap)),
             })
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=SIZED_COLUMNS)
 
 
 def score_projects(projects: pd.DataFrame) -> pd.DataFrame:

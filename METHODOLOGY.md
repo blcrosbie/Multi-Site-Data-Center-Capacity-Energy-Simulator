@@ -3,7 +3,7 @@
 > **Synthetic data — demonstration only.** This is a decision-support demonstration, not an engineering
 > or financial model. Costs and lead times are order-of-magnitude illustrations.
 
-All constants referenced below live in [`dcsim/config.py`](../dcsim/config.py); every one can be overridden per scenario.
+All constants referenced below live in [`dcsim/config.py`](dcsim/config.py); every one can be overridden per scenario.
 
 ## 1. Time base
 
@@ -139,3 +139,45 @@ Run them with `pytest -q`.
 - Efficiency is applied uniformly to power and cooling. In practice PUE improvements mostly reduce cooling and
   electrical overhead, not IT load.
 - Monte Carlo distributions are illustrative priors, not fitted to historical data.
+
+## 10. Decision support rules (SOW Module 6)
+
+The Executive Decisions page groups rules-based recommendations into the six SOW categories. Every recommendation
+carries a "Based on" line naming its metric and rule. None of the analyses below change the official forecast or
+the capital ranking; assumptions marked *illustrative* appear only in recommendation text.
+
+| Category | Rule |
+|---|---|
+| Immediate attention | Projects whose commit-by month ≤ 0, grouped by site; months still over capacity after the plan are stated |
+| Facilities at risk | Every site not at Low risk: warning / critical / exhaustion dates per resource, the rule that fired, Monte Carlo P(exhaustion ≤ 36 mo), and status after the plan |
+| Expansion timing | Late projects that go live after their site runs out: the gap in months, and the gap if the schedule is **crashed** (lead × (1 − 23%), rounded up; *illustrative*). Upcoming commit-by dates |
+| Optimization | **Deferrable planned spend**: the forecast re-run without each planned expansion; if that site/resource stays below the warning threshold for 36 months it is a deferral candidate, with the present value of a 12-month deferral at 10% (*illustrative*). **PUE**: sites at PUE ≥ 1.50 brought to 1.35 (*illustrative*) free `facility MW × (1 − 1.35 / PUE)` without changing IT heat. **Stranded power**: rack-bound sites with power below the warning line. **Load placement**: for a site still over power or cooling capacity after the plan, the IT MW needed through the gap window, and other sites (no gap of their own, cleaner per MWh of IT) that can absorb it while staying under the warning threshold on power **and** cooling for the whole window |
+| Over budget | Each unfunded project with its exhaustion month and months over capacity if not built, and its shortfall against the unallocated budget |
+| Deferral consequences | Each recommended project deferred, and each planned expansion slipped, by N months (default 6): extra months over capacity and above the warning line over the 36-month lookahead, before new projects |
+
+**Emissions for load placement** = IT MWh × PUE × average location-based grid intensity. Marginal emission rates
+(the plant that actually ramps for new load) may narrow the gap between sites. Network capacity and latency are not
+modeled, so the recommendation says to confirm backhaul first.
+
+**Monte Carlo attribution.** Scenario Planning also runs the simulation with zero schedule slip. When slip adds
+≥ 5 points to P(exhaustion ≤ 24 months), near-term risk is attributed to schedule slip; otherwise to demand growth.
+Example (baseline): DC2 power is 19% within 24 months as simulated but 0.4% with no slip, while its 28% within 36
+months is mostly demand outgrowing even the Phase 3 capacity (22% with no slip).
+
+**Energy, carbon and water run-rates** (Capacity Forecasting): annual energy = facility MW × 8,760 h; emissions =
+energy × grid intensity (location-based Scope 2); water = IT energy × WUE. They inform siting and are not capacity
+constraints.
+
+## 11. Exports (SOW Module 7)
+
+| File | Page | Contents |
+|---|---|---|
+| Monthly capacity forecast (CSV) | Capacity Forecasting | Every site × resource × month through the horizon; `data_type` = actual (month 0) or projected; threshold flags |
+| Facility-level capacity data (CSV) | Capacity Forecasting | One row per site × resource: today, horizon, warning / critical / exhaustion months, first limiting resource, risk |
+| Scenario assumptions & results (CSV) | Scenario Planning | Long format `section, site_id, item, value, unit`: every assumption, portfolio KPIs, site results, capital totals |
+| Scenario comparison (CSV) | Scenario Planning | The five presets (plus Custom) side by side |
+| Capital investment comparison (CSV) | Executive Decisions | Every sized project with scores, rank, timing, funding and headroom after investment |
+| Deferral analysis (CSV) | Executive Decisions | The deferral-consequences table for the chosen delay |
+| Executive summary (Markdown) | Executive Decisions | Headline, KPIs, every recommendation with its basis, ranked investments, briefing notes |
+
+CSV files are UTF-8 with a byte-order mark so Excel opens them cleanly.

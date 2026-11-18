@@ -76,6 +76,10 @@ class MCResult:
         """(N, S) earliest exhaustion across resources for each draw."""
         return self.exhaust.min(axis=2)
 
+    def prob_within(self, months: int) -> np.ndarray:
+        """(S, R) share of draws exhausting each site/resource within `months`."""
+        return (self.exhaust <= months).mean(axis=0)
+
     def exhaustion_summary(self) -> pd.DataFrame:
         """P10 / P50 / P90 exhaustion month and probability of exhaustion, per site-resource."""
         rows = []
