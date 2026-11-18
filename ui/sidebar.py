@@ -7,7 +7,7 @@ import streamlit as st
 from dcsim import config as C
 
 from . import state
-from .components import default_dark_theme
+from .components import GUIDE_URL, METHODOLOGY_URL, REPO_URL, default_dark_theme
 
 PRESET_HELP = {
     "Baseline": "Current operating assumptions and planned expansions.",
@@ -29,7 +29,7 @@ def render() -> None:
                 on_click=state.apply_preset, args=(name,),
             )
         if active == "Custom":
-            st.caption("Custom scenario: levers changed on the Scenario Planning page.")
+            st.caption("Custom scenario: levers changed on the Scenario Planning or Executive Decisions page.")
         st.button("↺ Reset to Baseline", key="reset", width="stretch", type="tertiary",
                   on_click=state.reset_to_baseline,
                   help="Restore every lever, threshold and the horizon to the baseline defaults.")
@@ -43,5 +43,6 @@ def render() -> None:
                   help="Utilization at which a site is treated as high operational risk.")
         st.divider()
         st.caption("Light / dark: app menu ⋮ (top right). Dark is the Campbell PowerShell scheme.")
-        st.caption("Synthetic data — demonstration only. Calculations: see the Methodology on GitHub.")
+        st.caption(f"Synthetic data — demonstration only. Calculations: [Methodology]({METHODOLOGY_URL}) · "
+                   f"plain-language [Field guide]({GUIDE_URL}) · [Source]({REPO_URL}).")
         default_dark_theme()

@@ -55,6 +55,16 @@ RISK_SCORE = {"Low": 0, "Medium": 33, "High": 67, "Critical": 100}
 PRIORITY_WEIGHTS = {"urgency": 0.5, "risk": 0.3, "cost": 0.2}
 URGENCY_SLACK_MONTHS = 24  # slack >= this many months scores 0 urgency
 
+# --- Decision support (Executive Decisions page) -----------------------------
+# Illustrative assumptions used only in recommendation text, never in the ranking.
+HOURS_PER_YEAR = 8760
+PUE_TARGET = 1.35            # efficiency benchmark for high-PUE sites (better containment, setpoints, economizers)
+HIGH_PUE = 1.50              # sites at or above this PUE are efficiency candidates
+DISCOUNT_RATE = 0.10         # time value of money for the "value of deferring" note (no ROI claimed)
+CRASH_COMPRESSION = 0.23     # schedule compression from crashing a project's critical path
+DEFAULT_DEFERRAL_TEST = 6    # months: default delay used for "consequences of deferring"
+LOW_UTILIZATION = 0.50       # below this on every resource, a site is a candidate to absorb load
+
 # --- Input validation bounds ------------------------------------------------
 GROWTH_BOUNDS = (-0.50, 1.00)
 EFFICIENCY_BOUNDS = (0.0, 0.50)

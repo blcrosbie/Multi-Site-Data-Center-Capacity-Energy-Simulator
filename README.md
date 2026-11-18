@@ -7,12 +7,13 @@ Rather than relying on deterministic, single-date guesses, the engine utilizes M
 
 It forecasts power, cooling and rack-space demand over 6–36 months, identifies the earliest site-level constraint, sizes and
 ranks expansion projects against a capital budget, and adds a **Monte Carlo risk layer** that turns single exhaustion
-dates into probabilities ("DC2 has a 28% chance of running out of power within 36 months if Phase 3 slips").
+dates into probabilities (the single-path forecast says DC2 never runs out of power; Monte Carlo puts it at 28% within
+36 months, and almost all of the next-two-years risk is its Phase 3 expansion landing late).
 
 > **Synthetic data — demonstration only.** No real facility, employer or infrastructure data is used.
 
-Plain-language field guide (lexicon + sustainability crossover): [GUIDE.md](GUIDE.md) · Scope and requirements: [TASK.md](TASK.md) · Methodology: [docs/METHODOLOGY.md](docs/METHODOLOGY.md) ·
-Data dictionary: [docs/DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md)
+Plain-language field guide (lexicon + sustainability crossover): [GUIDE.md](GUIDE.md) · Scope and requirements: [TASK.md](TASK.md) · Methodology: [METHODOLOGY.md](METHODOLOGY.md) ·
+Data dictionary: [DATA_DICTIONARY.md](DATA_DICTIONARY.md)
 
 ## Status
 
@@ -20,9 +21,18 @@ Data dictionary: [docs/DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md)
 |---|---|---|
 | 1 | Architecture, synthetic dataset, calculation engine, tests, methodology | ✅ done |
 | 2 | Streamlit shell (Campbell PowerShell dark theme + light mode, 4-page nav, scenario presets, reset) + Executive Overview + facility comparison | ✅ done |
-| 3 | Forecasting + Scenario Planning pages | engine ✅, UI ⏳ next |
-| 4 | Capital planning + Executive Decisions (rules engine) | capital engine ✅, rules/UI ⏳ |
-| 5 | Exports, deployment to Streamlit Community Cloud, walkthrough | ⏳ |
+| 3 | Capacity Forecasting + Scenario Planning pages (all SOW levers, preset comparison, Monte Carlo view) | ✅ done |
+| 4 | Capital planning + Executive Decisions (rules engine, six SOW recommendation categories) | ✅ done |
+| 5 | Exports ✅ (CSV + Markdown executive summary) · deployment to Streamlit Community Cloud · walkthrough | ⏳ |
+
+## The four pages
+
+| Page | What it answers |
+|---|---|
+| **Executive Overview** | Portfolio KPIs, the earliest site-level constraint, six-site comparison, headline insights |
+| **Capacity Forecasting** | Per site and resource: demand vs capacity with a Monte Carlo band, what fills up first, a "show the math" check of the exhaustion month, a status timeline for all 18 site/resource rows, exhaustion dates with P10/P50/P90, energy / carbon / water run-rates, monthly data and CSV exports |
+| **Scenario Planning** | Every lever (portfolio and site growth, efficiency, expansion with "size it for me", budget, unit costs, lead times), impact vs baseline, the five presets side by side, and the Monte Carlo risk layer with slip-vs-growth attribution |
+| **Executive Decisions** | This month's capital decision, ranking vs budget, expansion timing, deferral consequences, optimization (deferrable spend, PUE, stranded power, carbon-aware load placement), briefing notes for three audiences, CSV + Markdown exports |
 
 ## Quick start
 
@@ -57,7 +67,10 @@ views/            the four pages (overview.py, forecasting.py, scenarios.py, dec
 ui/               presentation only: state.py (levers/presets/context), sidebar.py, components.py, charts.py
 .streamlit/       config.toml ([theme.dark] Campbell PowerShell, [theme.light] xterm grays; Ubuntu fonts)
 dcsim/
-  rules.py        deterministic executive insights (each cites its underlying metric)
+  rules.py        deterministic insights + Executive Decisions panel (each cites its underlying metric)
+  decisions.py    crash / deferral / deferrable-spend / PUE / stranded-power / load-placement analysis
+  sustainability.py  energy, carbon and water run-rates per site
+  export.py       CSV exports and the Markdown executive summary
   config.py       all constants and default assumptions (one place to document/override)
   scenario.py     Scenario + Expansion dataclasses, 5 predefined scenarios, input validation
   data.py         CSV loading + physical-consistency validation
@@ -69,7 +82,8 @@ dcsim/
 data/             sites.csv, planned_expansions.csv
 scripts/          animate_simulation.py
 tests/            pytest suite incl. documented hand-worked test cases
-docs/             METHODOLOGY.md, DATA_DICTIONARY.md
+METHODOLOGY.md    formulas, rules and limitations;  DATA_DICTIONARY.md  columns, units, derived fields
+GUIDE.md          plain-language field guide; its worked numbers are re-checked in tests/test_decisions.py
 ```
 
 ## Design notes

@@ -19,6 +19,11 @@ from dcsim import config as C
 from dcsim import theme as T
 from dcsim.forecast import period_label
 
+REPO_URL = "https://github.com/blcrosbie/Multi-Site-Data-Center-Capacity-Energy-Simulator"
+METHODOLOGY_URL = f"{REPO_URL}/blob/main/METHODOLOGY.md"
+GUIDE_URL = f"{REPO_URL}/blob/main/GUIDE.md"
+RES_SHORT = {"power": "power", "cooling": "cooling", "space": "racks"}
+
 MONO = ", ".join(f"'{f}'" if " " in f else f for f in T.MONO_FAMILY)
 BAR_MAX = 1.2  # bar indicators span 0-120% so overloads stay visible
 
@@ -104,6 +109,10 @@ h1 {{
 .ins .action::before {{ content: "> "; font-family: var(--mono); font-weight: 700; color: var(--accent); }}
 .ins .basis {{ opacity: .68; font-size: .84rem; margin-top: 5px; font-family: var(--mono); }}
 .legend-note {{ opacity: .7; font-size: .84rem; font-family: var(--mono); }}
+.brief {{ border: 1px solid {_mix(40)}; border-left: 4px solid var(--accent); background: {_mix(3)};
+  padding: 10px 14px; font-size: 1rem; line-height: 1.5; }}
+.mathbox {{ font-family: var(--mono); font-size: .92rem; white-space: pre; overflow-x: auto;
+  border: 1px solid {_mix(30)}; background: {_mix(5)}; padding: 8px 12px; margin: .3rem 0 .6rem; }}
 </style>
 """
 
@@ -137,14 +146,22 @@ def page_header(title: str, ctx) -> None:
         ("thresholds", f"{sc.warning_threshold:.0%} / {sc.critical_threshold:.0%}"),
         ("planned expansions", "included" if sc.include_planned else "excluded"),
     ]
-    if sc.portfolio_growth is not None:
+    if sc.site_growth:
+        cells.append(("growth", "site overrides"))
+    elif sc.portfolio_growth is not None:
         cells.append(("growth", f"{sc.portfolio_growth:.0%}/yr all sites"))
     if sc.efficiency:
         cells.append(("efficiency", f"-{sc.efficiency:.0%}"))
     if sc.budget_usd is not None:
         cells.append(("budget", f"${sc.budget_usd / 1e6:,.0f}M"))
-    if sc.added_expansions:
-        cells.append(("scenario expansions", str(len(sc.added_expansions))))
+    scen_exp = [e for e in sc.added_expansions if e.source == "scenario"]
+    if scen_exp:
+        cells.append(("scenario expansions", str(len(scen_exp))))
+    if (sc.cost_per_mw, sc.cost_per_mwt, sc.cost_per_rack) != (C.DEFAULT_COST_PER_MW, C.DEFAULT_COST_PER_MWT,
+                                                               C.DEFAULT_COST_PER_RACK):
+        cells.append(("unit costs", "custom"))
+    if sc.lead_time != C.DEFAULT_LEAD_TIME:
+        cells.append(("lead times", "/".join(str(sc.lead_time[r]) for r in C.RESOURCES) + " mo"))
     st.title(title)
     st.markdown('<div class="statusbar">' + "".join(
         f'<div class="cell"><span class="k">{k}:</span>{esc(v)}</div>' for k, v in cells) + "</div>",
@@ -271,3 +288,15 @@ _DEFAULT_DARK_JS = """<script>
 def default_dark_theme() -> None:
     """Make the Campbell dark theme the first-visit default; the app menu still offers Light / Dark / System."""
     st.iframe(_DEFAULT_DARK_JS, height=1)
+
+
+def brief(text: str) -> None:
+    st.markdown(f'<div class="brief">{esc(text)}</div>', unsafe_allow_html=True)
+
+
+def mathbox(text: str) -> None:
+    st.markdown(f'<div class="mathbox">{esc(text)}</div>', unsafe_allow_html=True)
+
+
+def section_note(text: str) -> None:
+    st.markdown(f'<div class="legend-note">{esc(text)}</div>', unsafe_allow_html=True)

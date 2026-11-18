@@ -1,4 +1,4 @@
-"""Six-Site Data Center Capacity Simulator - Streamlit entry point.
+"""Multi-Site Data Center Capacity & Energy Simulator - Streamlit entry point.
 
     streamlit run app.py
 """
@@ -6,7 +6,7 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Six-Site DC Capacity Simulator",
+    page_title="Multi-Site DC Capacity Simulator",
     page_icon=":material/dns:",
     layout="wide",
     initial_sidebar_state="expanded",

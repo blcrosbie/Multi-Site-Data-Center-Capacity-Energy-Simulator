@@ -292,7 +292,7 @@ wide, **correlated** growth draws rather than a tidy weather-style P50/P90 band.
 
 ### Lexicon: forecasting
 
-These are the terms the simulator itself uses. Formulas are in [METHODOLOGY.md](docs/METHODOLOGY.md).
+These are the terms the simulator itself uses. Formulas are in [METHODOLOGY.md](METHODOLOGY.md).
 
 | Term | Plain meaning |
 |---|---|
@@ -717,9 +717,10 @@ Two ideas from my BIOET 533 work carry over especially well:
 *Courses: GEOG 489 (2020), plus my pre-degree career in telecom network performance.*
 
 > GEOG 489 was Python for GIS: reading shapefiles, point-in-polygon tests, hexagon grids, and
-> great-circle (haversine) distances between cities. Coming from telecom, I kept seeing networks everywhere.
-> In EME 801 I wrote: *"A good network should have multiple paths of redundancy, whether you are speaking of
-> power grids, telecommunication backhaul, or natural gas pipelines."*
+> great-circle (haversine) distances between cities. Coming from telecom, the experience analyzing networks transfers directly.
+> 
+> A good network should have multiple paths of redundancy, whether you are speaking of
+> power grids, telecommunication backhaul, or natural gas pipelines.
 >
 > **In a data center.** A data center that can't move data is a very expensive space heater. The simulator
 > **does not yet model network capacity**. This chapter explains why it matters and what a fourth resource
@@ -743,10 +744,9 @@ Two ideas from my BIOET 533 work carry over especially well:
 | **Point-in-polygon** | "Is this parcel inside the flood zone, the utility's territory, or the tax-abatement district?" It's the basic spatial query behind site screening. |
 | **Training vs inference siting** | **Training** a large AI model is mostly latency-*tolerant*: it can sit where power is cheap and clean, far from users, given enough backhaul for data sets. **Inference** (answering user requests) is latency-*sensitive* and wants to be near users. **This split is how network constraints and clean-energy siting meet.** |
 
-**How far is too far?** The Upper Midwest and the Pacific Northwest are about 2,300 km apart as the crow
-flies (Minneapolis to Portland, say). Over a fiber route about 1.3× longer, that's roughly **30 ms round
-trip**. That's fine for a training job that runs for weeks, and too slow for a chatbot that should answer
-instantly.
+**How far is too far?** 
+
+The Upper Midwest and the Pacific Northwest are about 2,300 km apart as the crow flies (Minneapolis to Portland, say). Over a fiber route about 1.3× longer, that's roughly 30 ms round trip. That's fine for a training job that runs for weeks, and too slow for a chatbot that should answer instantly. As a system performance engineer, I learned firsthand that maintaining the health of a sprawling network requires rigorous telemetry. Analyzing dropped calls and RF handover failures taught me that relying on high-latency backhaul inherently increases the risk of systemic bottlenecks, a principle that applies directly to siting latency-sensitive inference nodes today.
 
 <!-- YOUR VOICE: One or two sentences on how your telecom KPI work (dropped calls, handovers, network health)
 shaped how you think about site telemetry and backhaul. From your EME 812 notes: "As a system performance
@@ -783,9 +783,6 @@ In 2020 I wrote the generator-side version of this argument in an EME 801 peer r
 renewable system in a fossil fuel heavy location ... has a higher environmental benefit, than building more
 capacity in more renewable saturated markets."* For loads, the logic runs the other way: put flexible
 *demand* where the grid is already clean.
-
-<!-- YOUR VOICE: Is there a load-migration lever you'd want to add before the pitch? It would be a strong
-"how I think" demo, but it is beyond the SOW. -->
 
 ---
 
@@ -943,7 +940,7 @@ read from 2,000 Monte Carlo draws instead of 30 years of weather, and its tail p
 
 ## 18. What the model deliberately leaves out
 
-Knowing a model's boundaries is part of the skill. The full list is in [METHODOLOGY.md §9](docs/METHODOLOGY.md#9-limitations).
+Knowing a model's boundaries is part of the skill. The full list is in [METHODOLOGY.md §9](METHODOLOGY.md#9-limitations).
 
 - **Months, not hours.** EME 810 and EME 802 taught me to model all 8,760 hours of a year. The simulator steps
   monthly, so it can't see a hot afternoon, an evening grid peak, or hour-by-hour clean-energy matching.
